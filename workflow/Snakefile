@@ -1,0 +1,30 @@
+import os
+import glob
+
+
+Sample,Read = glob_wildcards("data/{sample}_{read}.fastq.gz")
+
+rule all:
+    input:
+        expand("{sample}/FASTQC/{sample}_{read}_fastqc.{extension}", sample=Sample,read=Read,extension=["zip","html"])
+
+rule fastqc:
+    input:
+        rawread="data/{sample}_{read}.fastq.gz"
+    output:
+        zip ="{sample}/FASTQC/{sample}_{read}_fastqc.zip",
+        html="{sample}/FASTQC/{sample}_{read}_fastqc.html"
+    threads: 1
+    
+    container:
+        "docker://staphb/fastqc"
+
+    params:
+        path="{sample}/FASTQC/"
+    log:
+
+    
+    shell:
+        "fastqc {input.rawread} --threads {threads} -o {params.path}"
+    
+    
