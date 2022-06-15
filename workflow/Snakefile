@@ -1,30 +1,21 @@
 import os
 import glob
 
+configfile: " config.yaml"
+include: "rules/bowtie2.smk"
+include: "rules/fastqc.smk"
+include: "rules/samToBamSorted.smk"
+include: "rules/markDup.smk"
+include: "rules/filterBam.smk"
+include: "rules/bamToBw.smk"
 
 Sample,Read = glob_wildcards("data/{sample}_{read}.fastq.gz")
 
 rule all:
     input:
-        expand("{sample}/FASTQC/{sample}_{read}_fastqc.{extension}", sample=Sample,read=Read,extension=["zip","html"])
-
-rule fastqc:
-    input:
-        rawread="data/{sample}_{read}.fastq.gz"
-    output:
-        zip ="{sample}/FASTQC/{sample}_{read}_fastqc.zip",
-        html="{sample}/FASTQC/{sample}_{read}_fastqc.html"
-    threads: 1
-    
-    container:
-        "docker://staphb/fastqc"
-
-    params:
-        path="{sample}/FASTQC/"
-    log:
-
-    
-    shell:
-        "fastqc {input.rawread} --threads {threads} -o {params.path}"
-    
-    
+        expand("{sample}/fastqc/{sample}_{read}_fastqc.{extension}", sample=Sample,read=Read,extension=["zip","html"]),
+        expand("{sample}/bowtie2/unfiltered_aligned.{extension}", sample=Sample, extension=["sam","txt"]),
+        expand("{sample}/bowtie2/UnfilAlignedSortByCoord.bam", sample=Sample),
+        expand("{sample}/bowtie2/aligned_rmdup.bam", sample=Sample),
+        expand("{sample}/bowtie2/aligned_rmdupPrimary.{extension}", sample=Sample,extension=["bam","bam.bai"]),
+        expand( "{sample}/bw/{sample}.bw", sample=Sample)

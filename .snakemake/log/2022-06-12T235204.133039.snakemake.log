@@ -1,0 +1,3 @@
+WorkflowError in line 4 of /media/asangani2/scripts/workflows/chipseq-workflow/workflow/Snakefile:
+Workflow defines configfile ../config/config.yaml but it is not present or accessible.
+  File "/media/asangani2/scripts/workflows/chipseq-workflow/workflow/Snakefile", line 4, in <module>

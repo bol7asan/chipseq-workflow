@@ -1,0 +1,10 @@
+
+ref:
+    #Ensemble species name
+    species: homo_sapiens
+    #Genome build
+    build: "HG38"
+    #Blaclisted regions that should be excluded from the analysis.
+    blacklist: "/media/asangani2/genome/HG38/hg38-blacklist.v2.bed"
+    #Genome bowtie2 index
+    index: "/media/asangani2/scripts/workflows/chipseq-workflow/resources/HG38/BOWTIE/bowtie"
