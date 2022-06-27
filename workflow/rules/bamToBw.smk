@@ -1,12 +1,12 @@
 rule bamToBw:
     input:
-        "{sample}/bowtie2/aligned_rmdupPrimary.bam"      
+        "{sample}/bowtie2/aligned.primary.rmdup.bam"      
     output:
-        "{sample}/bw/{sample}.bw"
+        "{sample}/bigWig/{sample}.bw"
     params:
-        main="--binSize 20 --normalizeUsing BPM --smoothLength 60 --extendReads 150 --centerReads",
+        main="--binSize 1 --normalizeUsing CPM --centerReads",
         blacklist= config["ref"]["blacklist"]
-    threads: 8
+    threads: 4
 
     log:
         "{sample}/logs/BigWig.log"

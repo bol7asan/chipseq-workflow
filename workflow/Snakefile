@@ -1,21 +1,30 @@
 import os
 import glob
 
-configfile: " config.yaml"
-include: "rules/bowtie2.smk"
+configfile: " /media/asangani2/scripts/workflows/chipseq-workflow/config/config.yaml"
+include: "rules/mapping.smk"
 include: "rules/fastqc.smk"
-include: "rules/samToBamSorted.smk"
-include: "rules/markDup.smk"
-include: "rules/filterBam.smk"
+include: "rules/filtering.smk"
 include: "rules/bamToBw.smk"
+include: "rules/macs.smk"
+include: "rules/common.smk"
 
 Sample,Read = glob_wildcards("data/{sample}_{read}.fastq.gz")
+Aligner = ["bowtie2"]
 
+   
 rule all:
     input:
         expand("{sample}/fastqc/{sample}_{read}_fastqc.{extension}", sample=Sample,read=Read,extension=["zip","html"]),
-        expand("{sample}/bowtie2/unfiltered_aligned.{extension}", sample=Sample, extension=["sam","txt"]),
-        expand("{sample}/bowtie2/UnfilAlignedSortByCoord.bam", sample=Sample),
-        expand("{sample}/bowtie2/aligned_rmdup.bam", sample=Sample),
-        expand("{sample}/bowtie2/aligned_rmdupPrimary.{extension}", sample=Sample,extension=["bam","bam.bai"]),
-        expand( "{sample}/bw/{sample}.bw", sample=Sample)
+        expand("{sample}/bowtie2/unfiltered_aligned.sam", sample=Sample),
+        expand("{sample}/bowtie2/Aligned.sortedByCoord.out.bam", sample=Sample),
+        expand("{sample}/bowtie2/unfiltered_aligned_stats.tsv", sample=Sample),
+        expand(["{sample}/bowtie2/aligned_markDup.bam","{sample}/bowtie2/dupMetrics.tsv"],sample=Sample),
+        expand("{sample}/bowtie2/aligned.primary.rmdup.{extension}", sample=Sample,extension=["bam","bam.bai"]),
+        expand("{sample}/bigWig/{sample}.bw", sample=Sample),
+        macs_output(Sample)
+        
+        
+
+
+
