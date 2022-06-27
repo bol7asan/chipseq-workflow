@@ -10,7 +10,6 @@ include: "rules/macs.smk"
 include: "rules/common.smk"
 
 Sample,Read = glob_wildcards("data/{sample}_{read}.fastq.gz")
-Aligner = ["bowtie2"]
 
    
 rule all:
