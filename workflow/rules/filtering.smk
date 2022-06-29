@@ -25,7 +25,7 @@ rule samtools:
     threads: 4
     params:
         bwa = "-M",
-        index = lambda w: config["ref"]["{}".format(w.aligner)]
+        index = config["ref"]["bowtie2"]
     conda:
         "ngsmo"
 
