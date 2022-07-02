@@ -13,7 +13,7 @@ ref:
     star: "/media/asangani2/scripts/workflows/resources/HG38/STAR"
 macs:
     #Broad marks based on encode and literature
-    broad: ["H3F3A", "H3K27ME3", "H3K36ME3", "H3K4ME1", "H3K79ME2", "H3K9ME1", "H3K9ME2", "H4K20ME1", "MED1"]
+    broad: ["H3F3A", "H3K27ME3", "H3K36ME3","H3K36ME2", "H3K4ME1", "H3K79ME2", "H3K9ME1", "H3K9ME2", "H4K20ME1", "MED1"]
     #Narrow marks based on encode and literature
     narrow: ["H2AFZ", "H3AC", "H3K27AC", "H3K4ME2", "H3K4ME3", "H3K9AC", "AR"]
     #q-val threshold for broad peak calling
