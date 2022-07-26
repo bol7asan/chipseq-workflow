@@ -7,10 +7,10 @@ rule bowtie2_PE:
         
         
     output:
-        aligned_sam="{sample}/bowtie2/unfiltered_aligned.sam"
+        aligned_sam="pre-analysis/{sample}/bowtie2/unfiltered_aligned.sam"
     log:
-        alignment_stats = "{sample}/bowtie2/unfiltered_aligned.txt",
-        met = "{sample}/logs/bowtie2.txt"
+        alignment_stats = "pre-analysis/{sample}/bowtie2/unfiltered_aligned.txt",
+        met = "pre-analysis/{sample}/logs/bowtie2.txt"
     threads: 6
     params:
         bowtie2 = "bowtie2 --local --no-mixed --no-discordant ",
@@ -29,9 +29,9 @@ rule bowtie2_SE:
         
         
     output:
-        aligned_sam="{sample}/bowtie2/unfiltered_aligned.sam"
+        aligned_sam="pre-analysis/{sample}/bowtie2/unfiltered_aligned.sam"
     log:
-        "{sample}/bowtie2/unfiltered_aligned.txt"
+        "pre-analysis/{sample}/bowtie2/unfiltered_aligned.txt"
     threads: 6
     params:
         bowtie2 = "bowtie2 --local --no-mixed --no-discordant -p",
@@ -51,7 +51,7 @@ rule bwa:
         r2 = "data/{sample}_R2.fastq.gz"
         
     output:
-        aligned_sam="{sample}/bwa/unfiltered_aligned.sam"
+        aligned_sam="pre-analysis/{sample}/bwa/unfiltered_aligned.sam"
     threads: 5
     params:
         bwa = "-M",
@@ -69,11 +69,11 @@ rule STAR:
         r2 = "data/{sample}_R2.fastq.gz"
 
     output:
-        aligned_bam="{sample}/STAR/Aligned.sortedByCoord.out.bam"
+        aligned_bam="pre-analysis/{sample}/STAR/Aligned.sortedByCoord.out.bam"
 
     log:
-        detailed_log="{sample}/STAR/Log.out",
-        mapping_summary="{sample}/STAR/Log.final.out"
+        detailed_log="pre-analysis/{sample}/STAR/Log.out",
+        mapping_summary="pre-analysis/{sample}/STAR/Log.final.out"
 
     
     threads: 8
@@ -85,7 +85,7 @@ rule STAR:
         --readFilesCommand zcat",
         
         index = config["ref"]["star"],
-        outdir = "{sample}/STAR/"
+        outdir = "pre-analysis/{sample}/STAR/"
     conda:
         "ngsmo"
 

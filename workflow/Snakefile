@@ -1,7 +1,7 @@
 import os
 import glob
 
-configfile: " /media/asangani2/scripts/workflows/chipseq-workflow/config/config.yaml"
+configfile: "/media/asangani2/scripts/workflows/chipseq-workflow/config/config.yaml"
 include: "rules/mapping.smk"
 include: "rules/fastqc.smk"
 include: "rules/filtering.smk"
@@ -11,16 +11,15 @@ include: "rules/common.smk"
 
 Sample,Read = glob_wildcards("data/{sample}_{read}.fastq.gz")
 
-   
+AlignmentFiles = ["unfiltered_aligned.sam","Aligned.sortedByCoord.out.bam","unfiltered_aligned_stats.tsv","dupMetrics.tsv","aligned_markDup.bam", "aligned.primary.rmdup.bam", "aligned.primary.rmdup.bam.bai"]
+
 rule all:
     input:
-        expand("{sample}/fastqc/{sample}_{read}_fastqc.{extension}", sample=Sample,read=Read,extension=["zip","html"]),
-        expand("{sample}/bowtie2/unfiltered_aligned.sam", sample=Sample),
-        expand("{sample}/bowtie2/Aligned.sortedByCoord.out.bam", sample=Sample),
-        expand("{sample}/bowtie2/unfiltered_aligned_stats.tsv", sample=Sample),
-        expand(["{sample}/bowtie2/aligned_markDup.bam","{sample}/bowtie2/dupMetrics.tsv"],sample=Sample),
-        expand("{sample}/bowtie2/aligned.primary.rmdup.{extension}", sample=Sample,extension=["bam","bam.bai"]),
-        expand("{sample}/bigWig/{sample}.bw", sample=Sample),
+        expand("pre-analysis/{sample}/fastqc/{sample}_{read}_fastqc.{extension}", sample=Sample,read=Read,extension=["zip","html"]),
+        expand("pre-analysis/{sample}/bowtie2/{file}", sample=Sample, file = AlignmentFiles ),
+        expand("pre-analysis/ucsc/" + config["ref"]["build"] + "/{sample}.bw", sample=Sample),
+        expand("pre-analysis/ucsc/{file}",file= [config["ref"]["build"] + "/" + "trackDb.txt","genomes.txt","hub.txt"])
+        expand("{sample}/bigWig/{sample}_{strand}.bw", sample = Sample, strand = ["forward","reverse"]),
         macs_output(Sample)
         
         

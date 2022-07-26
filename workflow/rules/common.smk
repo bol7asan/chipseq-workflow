@@ -18,3 +18,6 @@ def macs_output(Sample):
             print(f"{i} is {mode}")
     print(modes)
     return(modes)
+
+
+

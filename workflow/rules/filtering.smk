@@ -1,9 +1,9 @@
 rule markDup:
     input:
-        bamFile= "{sample}/bowtie2/Aligned.sortedByCoord.out.bam"     
+        bamFile= "pre-analysis/{sample}/bowtie2/Aligned.sortedByCoord.out.bam"     
     output:
-        bamMarked= "{sample}/bowtie2/aligned_markDup.bam",
-        dupStats="{sample}/bowtie2/dupMetrics.tsv" 
+        bamMarked= "pre-analysis/{sample}/bowtie2/aligned_markDup.bam",
+        dupStats="pre-analysis/{sample}/bowtie2/dupMetrics.tsv" 
     params:
         samtools="-ASO=coordinate --TAGGING_POLICY All"
     threads: 4
@@ -11,17 +11,17 @@ rule markDup:
     conda:
         "ngsmo"
     log:
-        "{sample}/logs/MarkDuplicates.log"
+        "pre-analysis/{sample}/logs/MarkDuplicates.log"
 
     shell:
         "gatk MarkDuplicates -I {input.bamFile} -O  {output.bamMarked} -M {output.dupStats} 2> {log}"
 
 rule samtools:
     input:
-        "{sample}/bowtie2/unfiltered_aligned.sam"
+        "pre-analysis/{sample}/bowtie2/unfiltered_aligned.sam"
         
     output:
-        "{sample}/bowtie2/unfiltered_aligned_stats.tsv"
+        "pre-analysis/{sample}/bowtie2/unfiltered_aligned_stats.tsv"
     threads: 4
     params:
         bwa = "-M",
@@ -37,9 +37,9 @@ rule samtools:
 
 rule samToBamSorted:
     input:
-        samFile="{sample}/bowtie2/unfiltered_aligned.sam"         
+        samFile="pre-analysis/{sample}/bowtie2/unfiltered_aligned.sam"         
     output:
-        bamFile= "{sample}/bowtie2/Aligned.sortedByCoord.out.bam"
+        bamFile= "pre-analysis/{sample}/bowtie2/Aligned.sortedByCoord.out.bam"
     params:
         samtools="sort --write-index -O BAM"
     threads: 4
@@ -52,10 +52,10 @@ rule samToBamSorted:
 
 rule filterBam:
     input:
-        "{sample}/bowtie2/aligned_markDup.bam"      
+        "pre-analysis/{sample}/bowtie2/aligned_markDup.bam"      
     output:
-        filteredBam="{sample}/bowtie2/aligned.primary.rmdup.bam",
-        index="{sample}/bowtie2/aligned.primary.rmdup.bam.bai"
+        filteredBam="pre-analysis/{sample}/bowtie2/aligned.primary.rmdup.bam",
+        index="pre-analysis/{sample}/bowtie2/aligned.primary.rmdup.bam.bai"
     params:
         filter="view -h -f bam --num-filter /3340",
         index="index --show-progress "

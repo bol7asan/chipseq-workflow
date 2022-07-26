@@ -7,7 +7,7 @@ rule macs_narrow:
         multiext("{sample}/macs/narrow/NA_","peaks.narrowPeak","summits.bed","peaks.xls")
     
     params:
-        macs="callpeak -q 0.01 -f BAMPE -g hs -c igG/bowtie2/aligned.primary.rmdup.bam",
+        macs="callpeak -q 0.05 -f BAMPE -g hs -c igG/bowtie2/aligned.primary.rmdup.bam",
         outdir="{sample}/macs/narrow",
         blacklist= config["ref"]["blacklist"]        
 
