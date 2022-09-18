@@ -16,6 +16,25 @@ rule markDup:
     shell:
         "gatk MarkDuplicates -I {input.bamFile} -O  {output.bamMarked} -M {output.dupStats} 2> {log}"
 
+
+rule markDupFiltered:
+    input:
+        bamFile= "pre-analysis/{sample}/bowtie2/aligned_markDup.bam"     
+    output:
+        bamMarked= "pre-analysis/{sample}/bowtie2/aligned_markDupFiltered.bam",
+        dupStats="pre-analysis/{sample}/bowtie2/dupMetricsFiltered.tsv" 
+    params:
+        samtools="-ASO=coordinate --TAGGING_POLICY All"
+    threads: 4
+
+    conda:
+        "ngsmo"
+    log:
+        "pre-analysis/{sample}/logs/MarkDuplicates.log"
+
+    shell:
+        "gatk MarkDuplicates -I {input.bamFile} -O  {output.bamMarked} -M {output.dupStats} 2> {log}"
+
 rule samtools:
     input:
         "pre-analysis/{sample}/bowtie2/unfiltered_aligned.sam"

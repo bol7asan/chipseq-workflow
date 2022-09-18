@@ -34,9 +34,9 @@ fp.close()
 
 #Create hub file 
 fp=open(snakemake.output[1],'w')
-fp.write('hub RNA-Seq_' + str(today) +'\n')
-fp.write('shortLabel RNA-Seq hub\n')
-fp.write('longLabel RNA-Seq hub\n')
+fp.write('hub ChIP-Seq_' + str(today) +'\n')
+fp.write('shortLabel ChIP-Seq hub\n')
+fp.write('longLabel ChIP-Seq hub\n')
 fp.write('genomesFile genomes.txt\n')
 fp.write('email mohammed.alhusayan@pennmedicine.upenn.edu\n')
 fp.write('descriptionUrl none')

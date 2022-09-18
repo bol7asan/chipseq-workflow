@@ -2,18 +2,18 @@ ref:
     #Ensemble species name
     species: homo_sapiens
     #Genome build
-    build: "HG38"
+    build: "hg19"
     #Blaclisted regions that should be excluded from the analysis.
-    blacklist: "/media/asangani2/scripts/workflows/resources/HG38/hg38-blacklist.v2.bed"
+    blacklist: "/media/asangani2/scripts/workflows/resources/hg19/hg19-blacklist.v2.bed"
     #Genome bowtie2 index
-    bowtie2: "/media/asangani2/scripts/workflows/resources/HG38/BOWTIE/bowtie"
+    bowtie2: "/media/asangani2/scripts/workflows/resources/hg19/BOWTIE/bowtie"
     ##Genome bwa index
-    bwa: "/media/asangani2/scripts/workflows/resources/HG38/BWA/GRCh38.p13.genome.fa"
+    bwa: "/media/asangani2/scripts/workflows/resources/hg19/BWA/GRCh37.p13.genome.fa"
     ##Genome files of STAR
-    star: "/media/asangani2/scripts/workflows/resources/HG38/STAR"
+    star: "/media/asangani2/scripts/workflows/resources/hg19/STAR"
 macs:
     #Broad marks based on encode and literature
-    broad: ["H3F3A", "H3K27ME3", "H3K36ME3","H3K36ME2", "H3K4ME1", "H3K79ME2", "H3K9ME1", "H3K9ME2", "H4K20ME1", "MED1"]
+    broad: ["H3F3A", "H3K27ME3", "H3K36ME3","H3K36ME2", "H3K4ME1", "H3K79ME2", "H3K9ME1", "H3K9ME2", "H4K20ME1", "MED1", "BRD4"]
     #Narrow marks based on encode and literature
     narrow: ["H2AFZ", "H3AC", "H3K27AC", "H3K4ME2", "H3K4ME3", "H3K9AC", "AR"]
     #q-val threshold for broad peak calling

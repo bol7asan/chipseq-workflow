@@ -34,7 +34,7 @@ rule bowtie2_SE:
         "pre-analysis/{sample}/bowtie2/unfiltered_aligned.txt"
     threads: 6
     params:
-        bowtie2 = "bowtie2 --local --no-mixed --no-discordant -p",
+        bowtie2 = "bowtie2 --no-mixed --no-discordant -p",
         index = config["ref"]["bowtie2"]
     conda:
         "ngsmo"

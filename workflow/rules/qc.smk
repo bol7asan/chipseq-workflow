@@ -13,4 +13,15 @@ rule fastqc:
         path="pre-analysis/{sample}/fastqc/"
     shell:
         "fastqc {input.rawread} --threads {threads} -o {params.path}"
+
+rule assembleStats:   
+    output:
+        "pre-analysis/alignment_stats.csv"
+    params:
+        files = "pre-analysis/*",
+        dup_files = "pre-analysis/*/bowtie2/dupMetrics.tsv",
+        rmdup_files = "pre-analysis/*/bowtie2/dupMetricsFiltered.tsv"
+
+    script:
+        "../scripts/bowtie_alignment_stats.R"
     

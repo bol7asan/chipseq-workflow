@@ -1,22 +1,6 @@
-# rule bamToBw:
-#     input:
-#         "{sample}/bowtie2/aligned.primary.rmdup.bam"      
-#     output:
-#         "{sample}/bigWig/{sample}.bw"
-#     params:
-#         main="--binSize 1 --normalizeUsing CPM --centerReads ",
-#         blacklist= config["ref"]["blacklist"]
-#     threads: 4
+ruleorder: bamToBw > make_hub
 
-#     log:
-#         "{sample}/logs/BigWig.log"
-
-#     conda:
-#         "ngsmo"
-
-    # shell:
-    #     "bamCoverage {params.main} -bl {params.blacklist} -b {input} -o {output}  -p {threads} 2> {log} "
-
+#Strand-specific
 rule bamToBw_forward:
     input:
         "{sample}/bowtie2/aligned.primary.rmdup.bam"      
@@ -55,6 +39,7 @@ rule bamToBw_reverse:
     shell:
         "bamCoverage {params.main} -bl {params.blacklist} -b {input} -o {output}  -p {threads} 2> {log} "
 
+#Dump BigWig files in a single directory (prepare for UCSC)
 rule bamToBw:
     input:
         "pre-analysis/{sample}/bowtie2/aligned.primary.rmdup.bam"      
@@ -74,6 +59,7 @@ rule bamToBw:
     shell:
         "bamCoverage {params.main} -bl {params.blacklist} -b {input} -o {output}  -p {threads}  > {log} "
 
+#Create UCSC hub, dump to server.
 rule make_hub:   
     output:
         trackDb = "pre-analysis/ucsc/" + config["ref"]["build"] + "/" + "trackDb.txt",
